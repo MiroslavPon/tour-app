@@ -25,7 +25,7 @@
 
 <main class="main" id="main">
 
-  <!-- экран списка -->
+  <!-- ЭКРАН СПИСКА -->
   <section id="view-list" class="view">
     <div class="filter-bar">
       <div class="filter-grid">
@@ -79,7 +79,7 @@
     </div>
   </section>
 
-  <!-- экран деталей -->
+  <!-- ЭКРАН ДЕТАЛЕЙ -->
   <section id="view-detail" class="view" hidden>
     <div class="detail-wrap">
       <button class="back-btn" id="backFromDetail">← К списку экскурсий</button>
@@ -96,7 +96,7 @@
     </div>
   </section>
 
-  <!-- экран бронирования -->
+  <!-- ЭКРАН БРОНИРОВАНИЯ -->
   <section id="view-booking" class="view" hidden>
     <div class="booking-wrap">
       <button class="back-btn" id="backFromBooking">← Назад к экскурсии</button>
@@ -109,6 +109,7 @@
           <p id="noSlotNote" class="muted-note" hidden>Это самостоятельная экскурсия — фиксированное время не требуется, маршрут доступен сразу после бронирования.</p>
           <label class="field__label">Количество человек</label>
           <input class="field__input" type="number" min="1" id="peopleInput" value="1">
+          <div class="muted-note" id="groupSizeHint" style="margin-top:-8px;"></div>
           <button class="btn btn--primary btn--block" id="toContactBtn">Далее</button>
         </div>
 
@@ -150,7 +151,7 @@
     </div>
   </section>
 
-  <!-- экран создания экскурси -->
+  <!-- ЭКРАН СОЗДАНИЯ ЭКСКУРСИИ -->
   <section id="view-create" class="view" hidden>
     <div class="create-wrap">
       <button class="back-btn" id="backFromCreate">← Отмена</button>
@@ -186,7 +187,9 @@
           <textarea class="field__input field__textarea" id="c-fullDesc" placeholder="Подробно опишите маршрут, что увидят гости, чем экскурсия особенна" required></textarea>
 
           <label class="field__label">Ссылки на фотографии (по одной на строку)</label>
+          <div class="hint-text">Нужна прямая ссылка на файл изображения (заканчивается на .jpg, .png, .webp и т.п.), а не ссылка на страницу сайта или галерею. Проверить ссылку просто: она должна открываться сразу как картинка в новой вкладке браузера.</div>
           <textarea class="field__input field__textarea field__textarea--mono" id="c-photos" placeholder="https://...jpg&#10;https://...jpg"></textarea>
+          <div class="photo-preview" id="photoPreview"></div>
 
           <div class="two-col">
             <div>
