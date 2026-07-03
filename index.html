@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Свои Люди — авторские экскурсии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <div class="logo" id="logoBtn">
+      <span class="logo__title">Свои Люди</span>
+      <span class="logo__subtitle">авторские экскурсии</span>
+    </div>
+    <div class="header__right">
+      <div class="header__location" id="headerLocation">📍 вы сейчас в: Томск</div>
+      <button class="reset-link" id="resetDataBtn" title="Удалить все локальные данные и вернуть тестовые экскурсии">Сбросить данные</button>
+    </div>
+  </div>
+</header>
+
+<main class="main" id="main">
+
+  <!-- экран списка -->
+  <section id="view-list" class="view">
+    <div class="filter-bar">
+      <div class="filter-grid">
+        <div class="field">
+          <label class="field__label">Страна</label>
+          <input class="field__input" id="f-country" placeholder="Россия">
+        </div>
+        <div class="field">
+          <label class="field__label">Город</label>
+          <select class="field__input" id="f-city">
+            <option value="">Любой</option>
+            <option value="Томск">Томск</option>
+            <option value="Москва">Москва</option>
+            <option value="Санкт-Петербург">Санкт-Петербург</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label">Дата с</label>
+          <input class="field__input" type="date" id="f-dateFrom">
+        </div>
+        <div class="field">
+          <label class="field__label">Дата по</label>
+          <input class="field__input" type="date" id="f-dateTo">
+        </div>
+        <div class="field">
+          <label class="field__label">Кол-во человек</label>
+          <input class="field__input" type="number" min="1" id="f-people">
+        </div>
+        <div class="field">
+          <label class="field__label">Дети</label>
+          <select class="field__input" id="f-kids">
+            <option value="">Неважно</option>
+            <option value="yes">С детьми</option>
+            <option value="no">Без детей</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-bar__actions">
+        <button class="btn btn--primary" id="searchBtn">Поиск</button>
+      </div>
+    </div>
+
+    <div class="list-header">
+      <h2 class="list-header__title" id="listTitle">Экскурсии: Томск</h2>
+      <span class="list-header__count" id="listCount">0 найдено</span>
+    </div>
+
+    <div class="tour-grid" id="tourGrid"></div>
+    <div class="empty-state" id="emptyState" hidden>
+      По заданным параметрам ничего не нашлось. Попробуйте изменить фильтр — или станьте первым, кто проведёт здесь экскурсию.
+    </div>
+  </section>
+
+  <!-- экран деталей -->
+  <section id="view-detail" class="view" hidden>
+    <div class="detail-wrap">
+      <button class="back-btn" id="backFromDetail">← К списку экскурсий</button>
+      <div class="detail-hero">
+        <img id="detailHeroImg" src="" alt="">
+      </div>
+      <div class="detail-thumbs" id="detailThumbs"></div>
+      <div class="tag-row" id="detailTags"></div>
+      <h1 class="detail-title" id="detailTitle"></h1>
+      <div class="detail-location" id="detailLocation"></div>
+      <p class="detail-desc" id="detailDesc"></p>
+      <div class="info-panel" id="detailInfoPanel"></div>
+      <button class="btn btn--primary btn--block" id="bookBtn">Забронировать</button>
+    </div>
+  </section>
+
+  <!-- экран бронирования -->
+  <section id="view-booking" class="view" hidden>
+    <div class="booking-wrap">
+      <button class="back-btn" id="backFromBooking">← Назад к экскурсии</button>
+      <h2 class="booking-title" id="bookingTourTitle"></h2>
+      <div class="booking-card">
+
+        <div class="booking-step" id="step-slot">
+          <div class="step-label">Шаг 1 / 4 — Выберите время</div>
+          <div id="slotList" class="slot-list"></div>
+          <p id="noSlotNote" class="muted-note" hidden>Это самостоятельная экскурсия — фиксированное время не требуется, маршрут доступен сразу после бронирования.</p>
+          <label class="field__label">Количество человек</label>
+          <input class="field__input" type="number" min="1" id="peopleInput" value="1">
+          <button class="btn btn--primary btn--block" id="toContactBtn">Далее</button>
+        </div>
+
+        <div class="booking-step" id="step-contact" hidden>
+          <div class="step-label">Шаг 2 / 4 — Контактные данные</div>
+          <label class="field__label">Имя</label>
+          <input class="field__input" id="nameInput" placeholder="Ваше имя">
+          <label class="field__label">Email для подтверждения</label>
+          <input class="field__input" type="email" id="emailInput" placeholder="you@example.com">
+          <button class="btn btn--primary btn--block" id="toPaymentBtn">Далее</button>
+        </div>
+
+        <div class="booking-step" id="step-payment" hidden>
+          <div class="step-label">Шаг 3 / 4 — Способ оплаты</div>
+          <div class="payment-options">
+            <div class="payment-option" data-type="online">
+              <div class="payment-option__title">Оплата картой онлайн</div>
+              <div class="payment-option__desc">Интернет-эквайринг (заглушка)</div>
+            </div>
+            <div class="payment-option" data-type="onsite">
+              <div class="payment-option__title">Оплата на месте</div>
+              <div class="payment-option__desc">Наличными или картой при встрече с гидом</div>
+            </div>
+          </div>
+          <div class="total-row">
+            <span>Итого:</span>
+            <strong id="totalPrice"></strong>
+          </div>
+          <button class="btn btn--primary btn--block" id="confirmBtn" disabled>Подтвердить бронирование</button>
+        </div>
+
+        <div class="booking-step" id="step-done" hidden>
+          <div class="step-label">Шаг 4 / 4 — Готово</div>
+          <p class="done-text" id="doneText"></p>
+          <button class="btn btn--primary btn--block" id="doneBackBtn">Вернуться к экскурсии</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- экран создания экскурси -->
+  <section id="view-create" class="view" hidden>
+    <div class="create-wrap">
+      <button class="back-btn" id="backFromCreate">← Отмена</button>
+      <h2 class="create-title">Создать экскурсию</h2>
+      <div class="create-card">
+        <form id="createForm">
+
+          <label class="field__label">Название экскурсии</label>
+          <input class="field__input" id="c-title" placeholder="Например: Тайны старого города" required>
+
+          <div class="two-col">
+            <div>
+              <label class="field__label">Страна</label>
+              <input class="field__input" id="c-country" value="Россия">
+            </div>
+            <div>
+              <label class="field__label">Город</label>
+              <select class="field__input" id="c-city">
+                <option value="Томск">Томск</option>
+                <option value="Москва">Москва</option>
+                <option value="Санкт-Петербург">Санкт-Петербург</option>
+              </select>
+            </div>
+          </div>
+
+          <label class="field__label">Место проведения (район)</label>
+          <input class="field__input" id="c-district" placeholder="Например: Центр" required>
+
+          <label class="field__label">Краткое описание</label>
+          <input class="field__input" id="c-shortDesc" placeholder="1-2 предложения для карточки" required>
+
+          <label class="field__label">Полное описание</label>
+          <textarea class="field__input field__textarea" id="c-fullDesc" placeholder="Подробно опишите маршрут, что увидят гости, чем экскурсия особенна" required></textarea>
+
+          <label class="field__label">Ссылки на фотографии (по одной на строку)</label>
+          <textarea class="field__input field__textarea field__textarea--mono" id="c-photos" placeholder="https://...jpg&#10;https://...jpg"></textarea>
+
+          <div class="two-col">
+            <div>
+              <label class="field__label">Формат экскурсии</label>
+              <select class="field__input" id="c-format">
+                <option value="group">Групповая</option>
+                <option value="individual">Индивидуальная</option>
+                <option value="self">Самостоятельная</option>
+              </select>
+            </div>
+            <div>
+              <label class="field__label">Способ передвижения</label>
+              <select class="field__input" id="c-move">
+                <option value="walk">Пешком</option>
+                <option value="bus">Автобусом</option>
+                <option value="car">На автомобилях группы</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="groupSizeWrap">
+            <label class="field__label">Размер группы (макс. человек)</label>
+            <input class="field__input" type="number" min="2" id="c-groupSize">
+          </div>
+
+          <div class="two-col">
+            <div>
+              <label class="field__label">Длительность (мин)</label>
+              <input class="field__input" type="number" min="10" id="c-duration" value="90">
+            </div>
+            <div>
+              <label class="field__label">Допускаются дети?</label>
+              <select class="field__input" id="c-kids">
+                <option value="yes">Да</option>
+                <option value="no">Нет</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div>
+              <label class="field__label">Стоимость</label>
+              <input class="field__input" type="number" min="0" id="c-price" placeholder="₽" required>
+            </div>
+            <div>
+              <label class="field__label">Тип цены</label>
+              <select class="field__input" id="c-priceType">
+                <option value="person">За одного</option>
+                <option value="group">За группу</option>
+              </select>
+            </div>
+          </div>
+
+          <label class="field__label">Доступное время (формат ГГГГ-ММ-ДДЧЧ:ММ, по одному на строку — необязательно для самостоятельных)</label>
+          <textarea class="field__input field__textarea field__textarea--mono" id="c-slots" placeholder="2026-07-15T11:00&#10;2026-07-15T15:00"></textarea>
+
+          <div class="two-col">
+            <div>
+              <label class="field__label">Ваше имя</label>
+              <input class="field__input" id="c-authorName" required>
+            </div>
+            <div>
+              <label class="field__label">Контакт (email/телефон)</label>
+              <input class="field__input" id="c-authorContact" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block" id="publishBtn">Опубликовать экскурсию</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button class="fab" id="createFab">+ Создать экскурсию</button>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

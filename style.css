@@ -1,0 +1,535 @@
+:root {
+  --ink: #1B1B18;
+  --paper: #F7F3E9;
+  --terracotta: #C4472E;
+  --pine: #2E5339;
+  --stone: #8A8578;
+  --white: #FFFFFF;
+  --card-border: #EDE7D8;
+  --input-border: #D9D2BF;
+  --pine-bg: #EAF0EC;
+  --terracotta-bg: #FBEFEA;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+}
+
+button, input, select, textarea { font-family: inherit; }
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--pine);
+  outline-offset: 1px;
+}
+
+/*Header*/
+
+.header {
+  border-bottom: 1px solid var(--card-border);
+}
+.header__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 24px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.logo {
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.logo__title {
+  font-family: 'PT Serif', serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+.logo__subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--stone);
+}
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header__location {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--stone);
+}
+.reset-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--stone);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+.reset-link:hover {
+  color: var(--terracotta);
+}
+
+/*Main / layout*/
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 24px 120px;
+}
+.view[hidden] { display: none; }
+
+/*Filter bar*/
+
+.filter-bar {
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 10px rgba(27,27,24,0.06);
+  margin-bottom: 24px;
+}
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+.field__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--stone);
+  margin-bottom: 5px;
+  display: block;
+}
+.field__input {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--input-border);
+  background: var(--white);
+  font-size: 14px;
+  color: var(--ink);
+}
+.filter-bar__actions {
+  margin-top: 16px;
+  text-align: right;
+}
+
+/*Buttons*/
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 6px;
+  padding: 11px 26px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.btn--primary {
+  background: var(--terracotta);
+  color: var(--paper);
+}
+.btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn--block {
+  width: 100%;
+  font-size: 14px;
+  padding: 14px 32px;
+  border-radius: 8px;
+}
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--pine);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 18px;
+  padding: 0;
+}
+
+/*List header*/
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+.list-header__title {
+  font-family: 'PT Serif', serif;
+  font-size: 22px;
+  margin: 0;
+}
+.list-header__count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--stone);
+}
+
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--stone);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+
+/*Tour grid / card*/
+
+.tour-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tour-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(27,27,24,0.08);
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.tour-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(27,27,24,0.14);
+}
+.tour-card__image-wrap {
+  position: relative;
+  height: 170px;
+  background: var(--card-border);
+}
+.tour-card__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tour-card__tags {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 6px;
+}
+.tour-card__body {
+  padding: 14px 16px 0;
+}
+.tour-card__meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--stone);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.tour-card__title {
+  font-family: 'PT Serif', serif;
+  font-size: 19px;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--ink);
+}
+.tour-card__desc {
+  font-size: 14px;
+  color: #4A4740;
+  line-height: 1.45;
+  margin: 8px 0 14px;
+}
+.ticket-divider {
+  position: relative;
+  height: 0;
+  margin: 0 14px;
+  border-top: 2px dashed var(--input-border);
+}
+.ticket-divider::before, .ticket-divider::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--paper);
+}
+.ticket-divider::before { left: -14px; }
+.ticket-divider::after { right: -14px; }
+.tour-card__footer {
+  padding: 12px 16px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tour-card__duration {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--stone);
+}
+.tour-card__price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--terracotta);
+}
+
+/*Tags*/
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--paper);
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.tag--green { background: var(--pine); }
+.tag--grey { background: var(--stone); }
+.tag-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/*Detail view*/
+
+.detail-wrap { max-width: 760px; margin: 0 auto; }
+.detail-hero {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.detail-hero img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+.detail-thumbs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+.detail-thumbs img {
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.detail-title {
+  font-family: 'PT Serif', serif;
+  font-size: 32px;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.detail-location {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--stone);
+  margin-bottom: 20px;
+}
+.detail-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #312F29;
+  margin-bottom: 24px;
+}
+.info-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 18px 20px;
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+}
+.info-item__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--stone);
+  margin-bottom: 4px;
+}
+.info-item__value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.info-item__value--accent { color: var(--terracotta); }
+
+/*Booking view*/
+
+.booking-wrap { max-width: 520px; margin: 0 auto; }
+.booking-title {
+  font-family: 'PT Serif', serif;
+  font-size: 26px;
+  margin-top: 0;
+}
+.booking-card {
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.step-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--stone);
+  margin-bottom: 16px;
+}
+.slot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.slot-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.slot-option.selected {
+  border-color: var(--terracotta);
+}
+.muted-note {
+  color: #4A4740;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.booking-step .field__label {
+  font-size: 13px;
+  color: var(--stone);
+  margin-bottom: 5px;
+}
+.booking-step .field__input { margin-bottom: 14px; }
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.payment-option {
+  padding: 14px 16px;
+  border: 1.5px solid var(--input-border);
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--white);
+}
+.payment-option.selected {
+  border-color: var(--terracotta);
+  background: var(--terracotta-bg);
+}
+.payment-option__title {
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.payment-option__desc {
+  font-size: 12.5px;
+  color: var(--stone);
+  margin-top: 2px;
+}
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+}
+.total-row strong { color: var(--terracotta); }
+.done-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #312F29;
+}
+
+/*Create view*/
+
+.create-wrap { max-width: 640px; margin: 0 auto; }
+.create-title {
+  font-family: 'PT Serif', serif;
+  font-size: 28px;
+  margin-top: 0;
+}
+.create-card {
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.create-card .field__label { margin-top: 4px; }
+.create-card .field__input { margin-bottom: 16px; }
+.field__textarea {
+  min-height: 90px;
+  resize: vertical;
+  font-family: 'Inter', sans-serif;
+}
+.field__textarea--mono {
+  min-height: 70px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/*FAB*/
+
+.fab {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  background: var(--pine);
+  color: var(--paper);
+  border: none;
+  border-radius: 30px;
+  padding: 16px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(27,27,24,0.25);
+}
+.fab[hidden] { display: none; }
+
+@media (max-width: 600px) {
+  .two-col { grid-template-columns: 1fr; }
+}
